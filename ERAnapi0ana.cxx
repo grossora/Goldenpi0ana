@@ -13,6 +13,7 @@ namespace ertool {
 	,_angleresdep(nullptr)
 	,_emres(nullptr)
 	,_angleres(nullptr)
+	,_angleresDEG(nullptr)
 	{
 		delete _mctree;
 		_mctree = new TTree("mctree","mct");
@@ -38,6 +39,7 @@ namespace ertool {
 		_mctree->Branch("_g1g2_p",&_g1g2_p,"g1g2p/D");
 		_mctree->Branch("_g1g2_angle",&_g1g2_angle,"g1g2angle/D");
 	// dep
+		_mctree->Branch("_g1dep_x",&_g1dep_x,"g1depx/D");
 		_mctree->Branch("_g1dep_y",&_g1dep_y,"g1depy/D");
 		_mctree->Branch("_g1dep_z",&_g1dep_z,"g1depz/D");
 		_mctree->Branch("_g1dep_p",&_g1dep_p,"g1depp/D");
@@ -63,12 +65,14 @@ namespace ertool {
 		_fulltree->Branch("_pi0_px",&_pi0_px,"px/D");
 		_fulltree->Branch("_pi0_py",&_pi0_py,"py/D");
 		_fulltree->Branch("_pi0_pz",&_pi0_pz,"pz/D");
+		_fulltree->Branch("_g1_x",&_g1_x,"g1x/D");
 		_fulltree->Branch("_g1_y",&_g1_y,"g1y/D");
 		_fulltree->Branch("_g1_z",&_g1_z,"g1z/D");
 		_fulltree->Branch("_g1_p",&_g1_p,"g1p/D");
 		_fulltree->Branch("_g1_px",&_g1_px,"g1px/D");
 		_fulltree->Branch("_g1_py",&_g1_py,"g1py/D");
 		_fulltree->Branch("_g1_pz",&_g1_pz,"g1pz/D");
+		_fulltree->Branch("_g2_x",&_g2_x,"g2x/D");
 		_fulltree->Branch("_g2_y",&_g2_y,"g2y/D");
 		_fulltree->Branch("_g2_z",&_g2_z,"g2z/D");
 		_fulltree->Branch("_g2_p",&_g2_p,"g2p/D");
@@ -78,12 +82,14 @@ namespace ertool {
 		_fulltree->Branch("_g1g2_p",&_g1g2_p,"g1g2p/D");
 		_fulltree->Branch("_g1g2_angle",&_g1g2_angle,"g1g2angle/D");
 	// dep
+		_fulltree->Branch("_g1dep_x",&_g1dep_x,"g1depx/D");
 		_fulltree->Branch("_g1dep_y",&_g1dep_y,"g1depy/D");
 		_fulltree->Branch("_g1dep_z",&_g1dep_z,"g1depz/D");
 		_fulltree->Branch("_g1dep_p",&_g1dep_p,"g1depp/D");
 		_fulltree->Branch("_g1dep_px",&_g1dep_px,"g1deppx/D");
 		_fulltree->Branch("_g1dep_py",&_g1dep_py,"g1deppy/D");
 		_fulltree->Branch("_g1dep_pz",&_g1dep_pz,"g1deppz/D");
+		_fulltree->Branch("_g2dep_x",&_g2dep_x,"g2depx/D");
 		_fulltree->Branch("_g2dep_y",&_g2dep_y,"g2depy/D");
 		_fulltree->Branch("_g2dep_z",&_g2dep_z,"g2depz/D");
 		_fulltree->Branch("_g2dep_p",&_g2dep_p,"g2depp/D");
@@ -100,12 +106,14 @@ namespace ertool {
 		_fulltree->Branch("_rpi0_px",&_rpi0_px,"px/D");
 		_fulltree->Branch("_rpi0_py",&_rpi0_py,"py/D");
 		_fulltree->Branch("_rpi0_pz",&_rpi0_pz,"pz/D");
+		_fulltree->Branch("_rg1_x",&_rg1_x,"rg1x/D");
 		_fulltree->Branch("_rg1_y",&_rg1_y,"rg1y/D");
 		_fulltree->Branch("_rg1_z",&_rg1_z,"rg1z/D");
 		_fulltree->Branch("_rg1_p",&_rg1_p,"rg1p/D");
 		_fulltree->Branch("_rg1_px",&_rg1_px,"rg1px/D");
 		_fulltree->Branch("_rg1_py",&_rg1_py,"rg1py/D");
 		_fulltree->Branch("_rg1_pz",&_rg1_pz,"rg1pz/D");
+		_fulltree->Branch("_rg2_x",&_rg2_x,"rg2x/D");
 		_fulltree->Branch("_rg2_y",&_rg2_y,"rg2y/D");
 		_fulltree->Branch("_rg2_z",&_rg2_z,"rg2z/D");
 		_fulltree->Branch("_rg2_p",&_rg2_p,"rg2p/D");
@@ -115,6 +123,7 @@ namespace ertool {
 		_fulltree->Branch("_rg1rg2_p",&_rg1rg2_p,"rg1rg2p/D");
 		_fulltree->Branch("_rg1rg2_angle",&_rg1rg2_angle,"rg1rg2angle/D");
 	// dep
+		_fulltree->Branch("_rg1dep_x",&_rg1dep_x,"rg1depx/D");
 		_fulltree->Branch("_rg1dep_y",&_rg1dep_y,"rg1depy/D");
 		_fulltree->Branch("_rg1dep_z",&_rg1dep_z,"rg1depz/D");
 		_fulltree->Branch("_rg1dep_p",&_rg1dep_p,"rg1depp/D");
@@ -135,13 +144,15 @@ namespace ertool {
 		delete _fitrecomass;
 		_fitrecomass = new TH1D("fitrecomass","#pi^{0} mass; MeV; Events ",60,0,600);
 		delete _emres;
-		_emres = new TH1D("emres"," sqrt(EE) resolution; MeV; Events ",50,-2,2);
+		_emres = new TH1D("emres"," sqrt(EE) resolution; Energy Resolution; Events ",50,-2,2);
 		delete _angleres;
-		_angleres = new TH1D("angleres"," angle resolution; rad; Events ",50,-4,4);
+		_angleres = new TH1D("angleres"," angle resolution; Opening Angle Resolution; Events ",50,-4,4);
+		delete _angleresDEG;
+		_angleresDEG = new TH1D("angleresDEG"," angle resolution; Opening Angle Resolution; Events ",50,-4,4);
 		delete _emresdep;
-		_emresdep = new TH1D("emresdep"," sqrt(EEdep) resolution; MeV; Events ",50,-2,2);
+		_emresdep = new TH1D("emresdep"," sqrt(EEdep) resolution; Energy Resolution ; Events ",50,-2,2);
 		delete _angleresdep;
-		_angleresdep = new TH1D("angleresdep"," angledep resolution; rad; Events ",50,-4,4);
+		_angleresdep = new TH1D("angleresdep"," angledep resolution; Opening Angle Resolution; Events ",50,-4,4);
 	}
 
 	void ERAnapi0ana::Reset()
@@ -372,7 +383,20 @@ if(gr){
 	double recomass = sqrt(2*_rg1_p*_rg2_p*(1-cos(_rg1rg2_angle)));
 	_recomass->Fill(recomass);
 //fit Mass
-	double fitrecomass = sqrt(2*_rg1_p*_rg2_p*(1-cos(_rg1rg2_angle)));
+	// these are hard coded for fun
+//	double fitg1 = ((1-0.534)*_rg1_p + 104.);// working fit
+//	double fitg2 = ((1-0.534)*_rg2_p + 104.);// working fit
+//	
+	double fitg1 = ((0.529)*_rg1_p +100.19 );// working fit
+	double fitg2 =  ((0.529)*_rg2_p +100.19);// working fit
+	//double fitg1 = ((0.589)*_rg1_p +111.19 );// working fit
+	//double fitg2 =  ((0.589)*_rg2_p +111.19);// working fit
+//	double fitg1 = ((0.253)*_rg1_p +266.317 );// working fit
+//	double fitg2 =  ((0.253)*_rg2_p +266.317);// working fit
+	//double fitg1 = ((1-0.333)*_rg1_p + 144.77);
+	//double fitg2 = ((1-0.333)*_rg2_p + 144.77);
+	double fitrecomass = sqrt(2.*fitg1*fitg2*(1.-cos(_rg1rg2_angle)));
+	//double fitrecomass = sqrt(2*_rg1_p*_rg2_p*(1-cos(_rg1rg2_angle)));
 	_fitrecomass->Fill(fitrecomass);
 	}// if we have reconstructed
 
@@ -380,17 +404,23 @@ if(gr){
 if(gmcdep && gmc && gr){
 	// hists 
 	// sqrt(E1E2) res 
-        double EEReco = sqrt(_rg1_p*_rg2_p);
+	double fitg1 = ((0.589)*_rg1_p +104.19 );// working fit
+	double fitg2 =  ((0.589)*_rg2_p +104.19);// working fit
+        double EEReco = sqrt(fitg1*fitg2);
+        //double EEReco = sqrt(_rg1_p*_rg2_p);
         double EEDep = sqrt(_g1dep_p*_g2dep_p);
         double EE = sqrt(_g1_p*_g2_p);
 	double EEresdep = (EEDep - EEReco)/(EEDep);
 	double EEres = (EE - EEReco)/(EE);
-	double AngleResdep =  (_g1g2dep_angle - _rg1rg2_angle)/(_g1g2dep_angle);
-	double AngleRes =  (_g1g2_angle - _rg1rg2_angle)/(_g1g2_angle);
+	double AngleResdep =  ((1-cos(_g1g2dep_angle)) - (1-cos(_rg1rg2_angle)))/((1-cos(_g1g2dep_angle)));
+	double AngleRes =  ((1-cos(_g1g2_angle)) - (1-cos(_rg1rg2_angle)))/((1-cos(_g1g2_angle)));
+	//double AngleResdep =  (_g1g2dep_angle - _rg1rg2_angle)/(_g1g2dep_angle);
+	double AngleResDEG =(_g1g2_angle*180./3.14159265 - _rg1rg2_angle*180./3.14159265)/(_g1g2_angle*180./3.14159265);
 	_emresdep->Fill(EEresdep);
 	_angleresdep->Fill(AngleResdep);
 	_emres->Fill(EEres);
 	_angleres->Fill(AngleRes);
+	_angleresDEG->Fill(AngleResDEG);
 	
 	}
 
@@ -408,6 +438,7 @@ if(gmcdep && gmc && gr){
 		_angleres->Write();
 		_emresdep->Write();
 		_angleresdep->Write();
+		_angleresDEG->Write();
 	}
 
 }

@@ -161,6 +161,7 @@ namespace ertool {
 	TH1D* _fitrecomass;
 	TH1D* _emres;
 	TH1D* _angleres;
+	TH1D* _angleresDEG;
 	TH1D* _emresdep;
 	TH1D* _angleresdep;
 

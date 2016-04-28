@@ -13,8 +13,10 @@
 #pragma link C++ class ertool::ERAnapi0ana+;
 #pragma link C++ class ertool::ERAnaEventdata+;
 #pragma link C++ class ertool::ERAnaMCEventdata+;
+#pragma link C++ class ertool::ERAnaPhotonana+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 
