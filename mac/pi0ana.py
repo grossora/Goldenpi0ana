@@ -14,16 +14,16 @@ if len(sys.argv) < 2:
 #====Pi0=====
 #algo_pi0 = ertool.ERAlgopi0()
 algo_pi0 = ertool.ERAlgoNCPi0()
-algo_pi0.setFidXmin(-126)# this hack is for the shift in MC
-algo_pi0.setFidXmax(126)# this hack is for the shift in MC
-#algo_pi0.setMinShrEnergy(30.)
+#algo_pi0.setFidXmin(-126)# this hack is for the shift in MC
+#algo_pi0.setFidXmax(126)# this hack is for the shift in MC
+algo_pi0.setMinShrEnergy(30.)
 #algo_pi0.setFidXmin(27)
 #algo_pi0.setFidXmax(27)
 #algo_pi0.setFidYmin(27)
 #algo_pi0.setFidYmax(27)
 #algo_pi0.setFidZmin(27)
 #algo_pi0.setFidZmax(27)
-#algo_pi0.setMinOpeningAngle(0.3)
+algo_pi0.setMinOpeningAngle(0.3)
 #algo_pi0.setMinShrEnergySum(100)
 #algo_pi0.setPi0DirYMin(-0.8)
 #algo_pi0.setMaxEnergyAsy(0.8)
@@ -73,7 +73,7 @@ my_anaunit._mgr._mc_for_ana = True
 #my_anaunit.SetShowerProducer(False,"showerrecopandora");
 my_anaunit.SetShowerProducer(False,"showerreco");
 #my_anaunit.SetShowerProducer(True,"mcreco");
-my_anaunit.SetTrackProducer(True,"mcreco");
+my_anaunit.SetTrackProducer(False,"");
 #my_anaunit.SetFlashProducer("opflashSat");
 
 # ************************************************

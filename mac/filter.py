@@ -14,6 +14,8 @@ if len(sys.argv) < 2:
 #====Pi0=====
 #algo_pi0 = ertool.ERAlgopi0()
 algo_pi0 = ertool.ERAlgoNCPi0()
+#algo_pi0.setFidXmin(-126)# this hack is for the shift in MC
+#algo_pi0.setFidXmax(126)# this hack is for the shift in MC
 algo_pi0.setMinShrEnergy(30.)
 #algo_pi0.setFidXmin(27)
 #algo_pi0.setFidXmax(27)
@@ -22,10 +24,10 @@ algo_pi0.setMinShrEnergy(30.)
 #algo_pi0.setFidZmin(27)
 #algo_pi0.setFidZmax(27)
 algo_pi0.setMinOpeningAngle(0.3)
-#algo_pi0.setMinShrEnergySum(70)
+#algo_pi0.setMinShrEnergySum(100)
 #algo_pi0.setPi0DirYMin(-0.8)
 #algo_pi0.setMaxEnergyAsy(0.8)
-#algo_pi0.setMaxIP(20)
+#algo_pi0.setMaxIP(10)
 #algo_pi0.setMaxIP(7.5)
 
 # Create MC filter
@@ -41,15 +43,12 @@ my_proc.enable_event_alignment(False)
 #my_anaunit._mgr.AddCfgFile('/home/ryan/LARLITE/../ertool_default.cfg')
 
 # Set up ana for 1pi0 selection
-my_ana = ertool.ERAnaEventdata()
-#my_ana = ertool.EREffCorrectAna()
+my_ana = ertool.ERAnaCutFileter()
 
 #Here is a filter
 
 # add on the algos
 my_anaunit._mgr.AddAlgo(algo_pi0)
-#my_anaunit._mgr.AddAlgo(algo_ncpi0)
-#my_anaunit._mgr.AddAlgo(algo_flash)
 my_anaunit._mgr.AddAna(my_ana)
 my_anaunit._mgr._training_mode =False
 
@@ -59,11 +58,12 @@ for x in xrange(len(sys.argv)-1):
     my_proc.add_input_file(sys.argv[x+1])
 
 # Specify IO mode
-my_proc.set_io_mode(fmwk.storage_manager.kREAD)
+my_proc.set_io_mode(fmwk.storage_manager.kBOTH)
 
 # Specify output root file name
-my_proc.set_ana_output_file("hist_eventdata.root")
+my_proc.set_ana_output_file("hist_yun_pi0ana.root")
 
+my_proc.set_output_file("Filtered_file.root")
 
 
 # here set E-cut for Helper & Ana modules
@@ -75,7 +75,6 @@ my_anaunit._mgr._mc_for_ana = True
 my_anaunit.SetShowerProducer(False,"showerreco");
 #my_anaunit.SetShowerProducer(True,"mcreco");
 my_anaunit.SetTrackProducer(False,"");
-#my_anaunit.SetTrackProducer(True,"mcreco");
 #my_anaunit.SetFlashProducer("opflashSat");
 
 # ************************************************
@@ -83,7 +82,7 @@ my_anaunit.SetTrackProducer(False,"");
 my_proc.add_process(my_anaunit)
 
 
-#my_proc.run(0,100)
+#my_proc.run(0,10)
 my_proc.run()
 
 
