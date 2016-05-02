@@ -14,8 +14,10 @@
 #pragma link C++ class ertool::ERAnaEventdata+;
 #pragma link C++ class ertool::ERAnaMCEventdata+;
 #pragma link C++ class ertool::ERAnaPhotonana+;
+#pragma link C++ class ertool::ERAnaCutFileter+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 
