@@ -25,7 +25,7 @@ namespace ertool {
         auto mcp =  mcgraph.GetParticleArray();
 	// First decided if we have a single particle or neutrino event
 	bool nuevt = false;
-        for(auto const & m : mcp){ if(fabs(m.PdgCode())==14 || fabs(m.PdgCode())==12){std::cout<<"have nu sample"<<std::endl; nuevt = true;}}
+        for(auto const & m : mcp){ if(fabs(m.PdgCode())==14 || fabs(m.PdgCode())==12){std::cout<<"have nu sample"<<std::endl; std::cout<<mcgraph.Diagram()<<std::endl; nuevt = true;}}
 
 	NodeID_t g1node_mc = -999;
         NodeID_t g2node_mc = -999;
@@ -42,6 +42,12 @@ namespace ertool {
 	//NodeID_t pi0node_mc = m.ID();
         std::vector<NodeID_t> kids_v = mcgraph.GetAllDescendantNodes(m.ID());
 	// if kids size are 2?
+	// I think this won't work... we can't see kids from the graph anymore
+	std::cout<<"Kids size "<<kids_v.size()<<std::endl;
+	auto pi0 =  mcgraph.GetParticle(m.ID());
+	auto child = pi0.Children();
+	std::cout<<"Children "<<child.size()<<std::endl;
+	
 	if(kids_v.size()!=2){ goodmcpair = false; continue;}
 
 	        for(unsigned int a = 0; a <kids_v.size(); a++){

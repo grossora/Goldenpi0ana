@@ -148,7 +148,7 @@ namespace ertool {
 		delete _angleres;
 		_angleres = new TH1D("angleres"," angle resolution; Opening Angle Resolution; Events ",50,-4,4);
 		delete _angleresDEG;
-		_angleresDEG = new TH1D("angleresDEG"," angle resolution; Opening Angle Resolution; Events ",50,-4,4);
+		_angleresDEG = new TH1D("angleresDEG"," angle resolution; Opening Angle Resolution; Events ",50,-8,4);
 		delete _emresdep;
 		_emresdep = new TH1D("emresdep"," sqrt(EEdep) resolution; Energy Resolution ; Events ",50,-2,2);
 		delete _angleresdep;
@@ -166,6 +166,7 @@ namespace ertool {
 
 	bool ERAnapi0ana::Analyze(const EventData &data, const ParticleGraph &graph)
 	{ 
+	std::cout<<"Start of algo"<<std::endl;
 	// Find the MC information 
 		auto mcgraph = MCParticleGraph();
 		auto mceventdata = MCEventData();
@@ -202,14 +203,19 @@ namespace ertool {
 	// MC Find the pi0 and fill out the nodes
 		for(auto const & m : mcp){
 //	if(m.PdgCode()==111 &&  m.Generation()==1){
+	// can I get this for bnb events...? I don't think they are in graph anymore.
 			if(m.PdgCode()==111 ){
+		std::cout<<"ssssssssssssssssPi0 ID "<<m.ID()<<std::endl;
 				pi0node_mc = m.ID();
+				std::cout<<"Node Ide for pi0"<<pi0node_mc<<std::endl;
 				std::vector<NodeID_t> kids_v = mcgraph.GetAllDescendantNodes(m.ID());
+				std::cout<<"Kids size"<<kids_v.size()<<std::endl;
 		// loop over the kids and fill them.
 		// Figure out how to deal with Dalitz... For now just ignore 
 				if(kids_v.size()!=2) return true;
 				for(unsigned int a = 0; a <kids_v.size(); a++){
 					if(!g1bool_mc){ g1node_mc= kids_v[a]; 
+					std::cout<<"Node value for kid"<<g1node_mc<<std::endl;
 					g1node_mcdet = mcgraph.GetParticle(g1node_mc).RecoID();
 					 g1bool_mc=true;}
 					else{g2node_mc= kids_v[a]; g2node_mcdet = mcgraph.GetParticle(g2node_mc).RecoID(); g2bool_mc=true;}
@@ -230,7 +236,6 @@ namespace ertool {
 		}// if pi0 and gen 1 
 	}// Loop over the MCparticle
 
-
 // This needs to be sorted and cleaned up RG.
 	bool gmc = true;
 	bool gmcdep = true;
@@ -242,6 +247,9 @@ if(g1node_mcdet<0  || g2node_mcdet<0) gmcdep = false;// horrible horrible hack
 	////////////////////
 	// Fill out mc vars 
 	////////////////////
+// 
+if( !gmc) return true;
+if( !gmcdep) return true;
 auto mcpi0 = mcgraph.GetParticle(pi0node_mc);	
 auto mcg1 = mcgraph.GetParticle(g1node_mc);	
 auto mcg2 = mcgraph.GetParticle(g2node_mc);	

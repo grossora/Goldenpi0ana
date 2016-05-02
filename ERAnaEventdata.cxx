@@ -35,6 +35,7 @@ namespace ertool {
 	_run = data.Run();
 	_subrun = data.SubRun();
 	//just looking at all the shower objects in this events
+	// Not making a mass or anything like that.... 
 	auto const& shrIDs = graph.GetParticleNodes(RecoType_t::kShower);
 	_nshowers=shrIDs.size();
 	// if nshowers==0 clear everything...there is no need to do this.. just make sure you are cutting nshowers!=0 in the tree
